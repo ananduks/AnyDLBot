@@ -56,7 +56,8 @@ async def rename_doc(bot, update):
         chat_id=update.chat.id,
         text=Translation.DEL_CANCEL,
     reply_markup=InlineKeyboardMarkup(
-        [[InlineKeyboardButton("screenshot", "screenshot")]]  
+        [[InlineKeyboardButton("screenshot", 
+                    callback_data="screenshot")]]  
     )
 )
         c_time = time.time()
