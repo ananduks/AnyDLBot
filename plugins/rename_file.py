@@ -150,7 +150,7 @@ async def rename_doc(bot, update):
 
        
 @pyrogram.Client.on_callback_query(pyrogram.Filters.callback_data("screenshot")
-async def generate_screen_shot(bot, update):
+async def  generate_screen_shot(bot, update):
     if update.from_user.id not in Config.AUTH_USERS:
         await bot.delete_messages(
             chat_id=update.chat.id,
