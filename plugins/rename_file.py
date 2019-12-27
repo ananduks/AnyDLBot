@@ -22,6 +22,7 @@ from translation import Translation
 
 import pyrogram
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
+from pyrogram import InlineKeyboardMarkup, InlineKeyboardButton
 
 from helper_funcs.chat_base import TRChatBase
 from helper_funcs.display_progress import progress_for_pyrogram
@@ -51,6 +52,13 @@ async def rename_doc(bot, update):
             text=Translation.DOWNLOAD_START,
             reply_to_message_id=update.message_id
         )
+        await bot.send_message(
+        chat_id=update.chat.id,
+        text=Translation.DEL_CANCEL,
+    reply_markup=InlineKeyboardMarkup(
+        [[InlineKeyboardButton("screenshot", "screenshot")]]  
+    )
+)
         c_time = time.time()
         the_real_download_location = await bot.download_media(
             message=update.reply_to_message,
