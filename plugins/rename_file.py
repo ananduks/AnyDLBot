@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 import os
 import time
+import shutil
 
 # the secret configuration specific things
 if bool(os.environ.get("WEBHOOK", False)):
@@ -26,6 +27,7 @@ from pyrogram import InlineKeyboardMarkup, InlineKeyboardButton
 
 from helper_funcs.chat_base import TRChatBase
 from helper_funcs.display_progress import progress_for_pyrogram
+from helper_funcs.help_Nekmo_ffmpeg import generate_screen_shots
 
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
