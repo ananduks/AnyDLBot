@@ -28,6 +28,7 @@ from pyrogram import InlineKeyboardMarkup, InlineKeyboardButton
 from helper_funcs.chat_base import TRChatBase
 from helper_funcs.display_progress import progress_for_pyrogram
 from helper_funcs.help_Nekmo_ffmpeg import generate_screen_shots
+from plugins.generate_screen_shot import generatecss
 
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
@@ -55,13 +56,10 @@ async def rename_doc(bot, update):
             reply_to_message_id=update.message_id
         )
         await bot.send_message(
-        chat_id=update.chat.id,
-        text=Translation.DEL_CANCEL,
-    reply_markup=InlineKeyboardMarkup(
-        [[InlineKeyboardButton("screenshot", 
-                    callback_data="screenshot")]]  
-    )
-)
+            chat_id=update.chat.id,
+            text=Translation.DEL_CANCEL,
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("screenshot", callback_data="generatecss")]])
+        )
         c_time = time.time()
         the_real_download_location = await bot.download_media(
             message=update.reply_to_message,
