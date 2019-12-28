@@ -30,25 +30,25 @@ from helper_funcs.display_progress import progress_for_pyrogram
 
 
 @pyrogram.Client.on_callback_query(pyrogram.Filters.callback_data("generatescss")
-    async def generate_screen_shot(bot, update):
-       if update.from_user.id not in Config.AUTH_USERS:
-           await bot.delete_messages(
-               chat_id=update.chat.id,
-               message_ids=update.message_id,
-               revoke=True
-          )
-          return
+async def generate_screen_shot(bot, update):
+    if update.from_user.id not in Config.AUTH_USERS:
+        await bot.delete_messages(
+            chat_id=update.message.chat.id,
+            message_ids=update.message.message_id,
+            revoke=True
+        )
+        return
     TRChatBase(update.from_user.id, update.text, "generatescss")
     if update.reply_to_message is not None:
         download_location = Config.DOWNLOAD_LOCATION + "/"
         a = await bot.send_message(
-            chat_id=update.chat.id,
+            chat_id=update.message.chat.id,
             text=Translation.DOWNLOAD_START,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.message.message_id
         )
         c_time = time.time()
         the_real_download_location = await bot.download_media(
-            message=update.reply_to_message,
+            message=update.message.reply_to_message.document,
             file_name=download_location,
             progress=progress_for_pyrogram,
             progress_args=(
@@ -60,7 +60,7 @@ from helper_funcs.display_progress import progress_for_pyrogram
         if the_real_download_location is not None:
             await bot.edit_message_text(
                 text=Translation.SAVED_RECVD_DOC_FILE,
-                chat_id=update.chat.id,
+                chat_id=update.message.chat.id,
                 message_id=a.message_id
             )
             tmp_directory_for_each_user = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
@@ -77,7 +77,7 @@ from helper_funcs.display_progress import progress_for_pyrogram
             logger.info(images)
             await bot.edit_message_text(
                 text=Translation.UPLOAD_START,
-                chat_id=update.chat.id,
+                chat_id=update.message.chat.id,
                 message_id=a.message_id
             )
             media_album_p = []
@@ -102,7 +102,7 @@ from helper_funcs.display_progress import progress_for_pyrogram
                             )
                         i = i + 1
             await bot.send_media_group(
-                chat_id=update.chat.id,
+                chat_id=update.message.chat.id,
                 disable_notification=True,
                 reply_to_message_id=a.message_id,
                 media=media_album_p
@@ -115,13 +115,13 @@ from helper_funcs.display_progress import progress_for_pyrogram
                 pass
             await bot.edit_message_text(
                 text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
-                chat_id=update.chat.id,
+                chat_id=update.message.chat.id,
                 message_id=a.message_id,
                 disable_web_page_preview=True
             )
     else:
         await bot.send_message(
-            chat_id=update.chat.id,
+            chat_id=update.message.chat.id,
             text=Translation.REPLY_TO_DOC_FOR_SCSS,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.message.message_id
         )
